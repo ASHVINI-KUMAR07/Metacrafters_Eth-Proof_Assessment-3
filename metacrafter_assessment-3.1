@@ -1,0 +1,34 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+contract ValidationContract {
+    // 1st step: we will create state variable to store the owner's address
+    address public owner;
+    
+    // Now, we will create state variable to store a number
+    uint256 public number;
+
+    // now, i have created a constructor
+    constructor() {
+        owner = msg.sender;
+    }
+
+    // require() : this will validate the conditions
+    function setNumber(uint256 _number) public {
+        require(_number > 0, "Number must be greater than zero");
+        number = _number;
+    }
+
+    // assert(): this will check the conditions
+    function checkOwner() public view {
+        assert(owner == msg.sender);
+    }
+
+    //  revert(): will give error if found
+    function resetNumber() public {
+        if (msg.sender != owner) {
+            revert("Only the owner can reset the number");
+        }
+        number = 0;
+    }
+}
